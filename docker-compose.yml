@@ -1,0 +1,29 @@
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres_db;Port=5432;Database=TarefasDb;Username=postgres;Password=sua_senha_aqui
+    depends_on:
+      - postgres_db
+
+  # Serviço do PostgreSQL
+  postgres_db:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: TarefasDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sua_senha_aqui
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
