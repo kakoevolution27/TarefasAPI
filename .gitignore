@@ -1,7 +1,5 @@
 bin
 obj
 Properties
-appsettings.Development
-appsettings
-appsettings.Development.json
 appsettings.json
+appsettings.Development.json
