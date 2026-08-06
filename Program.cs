@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TarefasApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
+
+string strDeConexao = builder.Configuration.GetConnectionString("ConnectionStrings") ?? "";
+
+
+builder.Services.AddDbContext<TarefasApiContext>(options => options.UseNpgsql(strDeConexao));
+
 
 var app = builder.Build();
 
