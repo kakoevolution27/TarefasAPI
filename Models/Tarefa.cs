@@ -6,5 +6,5 @@ public class Tarefa
     public bool Concluida{get;set;}
 
     public required Categoria Categoria {get;set;}
-    public int CategoriaId;
+    public int CategoriaId {get;set;}
 }

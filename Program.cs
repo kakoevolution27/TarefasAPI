@@ -9,7 +9,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 
-string strDeConexao = builder.Configuration.GetConnectionString("ConnectionStrings") ?? "";
+string? strDeConexao = builder.Configuration.GetConnectionString("StringConexaoPostgres");
+
 
 
 builder.Services.AddDbContext<TarefasApiContext>(options => options.UseNpgsql(strDeConexao));
