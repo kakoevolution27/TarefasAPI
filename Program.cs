@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TarefasApi.Data;
+using TarefasAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ string? strDeConexao = builder.Configuration.GetConnectionString("StringConexaoP
 
 
 builder.Services.AddDbContext<TarefasApiContext>(options => options.UseNpgsql(strDeConexao));
+
+builder.Services.AddScoped<CategoriaRepository>();
 
 
 var app = builder.Build();
