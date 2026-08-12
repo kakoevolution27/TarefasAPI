@@ -26,6 +26,35 @@ namespace TarefasAPI.Repositories
 
             return retorno.Entity;
         }
+
+        public async Task AlterarAsync(int id, Categoria categoria)
+        {
+            Categoria? registroNoBanco = await ObterPorId(id);
+
+            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
+
+            _contexto.Entry(registroNoBanco).CurrentValues.SetValues(categoria);
+
+            await _contexto.SaveChangesAsync();
+        }
+
+        public async Task<Categoria?> ObterPorId(int id)
+        {
+            Categoria? retorno = await _contexto.Categorias.FindAsync(id);
+
+            return retorno;
+        }
+
+        internal async Task ExcluirAsync(int id)
+        {
+            Categoria? registroNoBanco = await ObterPorId(id);
+
+            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
+            
+            _contexto.Categorias.Remove(registroNoBanco);
+
+            await _contexto.SaveChangesAsync();
+        }
     }
     
 }
