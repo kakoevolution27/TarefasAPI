@@ -27,12 +27,8 @@ namespace TarefasAPI.Repositories
             return retorno.Entity;
         }
 
-        public async Task AlterarAsync(int id, Categoria categoria)
+        public async Task AlterarAsync(Categoria registroNoBanco, Categoria categoria)
         {
-            Categoria? registroNoBanco = await ObterPorId(id);
-
-            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
-
             _contexto.Entry(registroNoBanco).CurrentValues.SetValues(categoria);
 
             await _contexto.SaveChangesAsync();
@@ -45,12 +41,8 @@ namespace TarefasAPI.Repositories
             return retorno;
         }
 
-        internal async Task ExcluirAsync(int id)
-        {
-            Categoria? registroNoBanco = await ObterPorId(id);
-
-            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
-            
+        internal async Task ExcluirAsync(Categoria registroNoBanco)
+        {            
             _contexto.Categorias.Remove(registroNoBanco);
 
             await _contexto.SaveChangesAsync();

@@ -26,12 +26,19 @@ namespace TarefasAPI.Services
 
         public async Task AlterarAsync(int id, Categoria categoria)
         {
-            await _categoriaRepository.AlterarAsync(id, categoria);
+            Categoria? registroNoBanco = await _categoriaRepository.ObterPorId(id);
+
+            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
+
+            await _categoriaRepository.AlterarAsync(registroNoBanco, categoria);
         }
 
         public async Task ExcluirAsync(int id)
         {
-            await _categoriaRepository.ExcluirAsync(id);
+            Categoria? registroNoBanco = await _categoriaRepository.ObterPorId(id);
+
+            if (registroNoBanco is null) throw new KeyNotFoundException("Registro não existe no Banco");
+            await _categoriaRepository.ExcluirAsync(registroNoBanco);
         }
     }
 }

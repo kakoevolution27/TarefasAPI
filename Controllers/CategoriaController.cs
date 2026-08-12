@@ -7,39 +7,74 @@ namespace TarefasAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoriaController(CategoriaService categoriaService): ControllerBase
+    public class CategoriaController : ControllerBase
     {
-        
-        private readonly CategoriaService categoriaService = categoriaService;
+        private readonly CategoriaService _categoriaService;
+
+        public CategoriaController(CategoriaService categoriaService)
+        {
+            _categoriaService = categoriaService;
+        }
 
 
         [HttpGet]
         public async Task<ActionResult<List<Categoria>>> Listar()
         {
-            List<Categoria> retorno = await categoriaService.ListarAsync();
-            return retorno;
+            try
+            {
+                List<Categoria> retorno = await _categoriaService.ListarAsync();
+                return Ok(retorno);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            
         }
 
         [HttpPost]
-        public async Task<Categoria> IncluirAsync([FromBody]Categoria categoria)
+        public async Task<ActionResult<Categoria>> IncluirAsync([FromBody]Categoria categoria)
         {
-            Categoria retorno = await categoriaService.IncluirAsync(categoria);
-            return retorno;
+            try
+            {
+                Categoria retorno = await _categoriaService.IncluirAsync(categoria);
+                return Created(String.Empty,retorno);
+            }
+            catch(Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> AlterarAsync(int id, [FromBody] Categoria categoria)
         {
-            await categoriaService.AlterarAsync(id,categoria);
-            return NoContent();
+            try
+            {
+                await _categoriaService.AlterarAsync(id,categoria);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> ExcluirAsync (int id)
         {
-            await categoriaService.ExcluirAsync(id);
-            return NoContent();
+            try
+            {
+                await _categoriaService.ExcluirAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+            
         }
     }
 }
